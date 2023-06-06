@@ -103,6 +103,37 @@ b)  Load the data for both years into R. Check the type of the count
     some of the counts are inaccurate because of this. Explain your
     solution and the repercussions.
 
+```{r message=FALSE, warning=FALSE, echo=TRUE}
+library(readr)
+library(dplyr)
+
+names_2021 <- read_csv("vornamen_2021.csv")
+names_2022 <- read_csv("vornamen_2022.csv")
+
+typeof(names_2021$Anzahl)
+typeof(names_2022$Anzahl)
+```
+```{r echo=TRUE}
+names_2021 %>% slice(1000:1005)
+names_2022 %>% slice(1000:1005)
+```
+As we can see above the issue is that some entries have the qualifier "less than"
+for rare names. So the character type is actually appropriate.
+
+We will change these entries with 2, as this is the middle between 1 and 4.This way
+some names will be counted too often and others too seldom. This is both a solution 
+and the repercussions as we generate some inaccuracy. 
+
+```{r echo=TRUE}
+#We change the column "Anzahl" with our new rule
+names_2021$Anzahl[names_2021$Anzahl == "4 oder weniger"] <- 2
+names_2022$Anzahl[names_2022$Anzahl == "4 oder weniger"] <- 2
+
+# change type to numeric
+names_2021$Anzahl <- as.numeric(names_2021$Anzahl)
+names_2022$Anzahl <- as.numeric(names_2022$Anzahl)
+```
+
 c)  Calculate the total number of babies born in Munich in 2022
     and 2021. Which year had the bigger baby-boom?
 
