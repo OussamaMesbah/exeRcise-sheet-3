@@ -181,6 +181,11 @@ a)  The code below does not work because the wrong apply function has
     been used. Find out which apply function would be correct and why it
     did not work. Correct the code. Also calculate the rowwise means.
 
+The following prompt was used:
+
+<blockquote>
+The following code does not work. It uses the apply function wrong. change it to the correct apply function and explain why it did not work.  Output the rowwise means.
+
 ###Create a sample data frame
 
 tax_data \<- data.frame( Name = c("Munich GmbH", "ABC Inc.", "Backpacks
@@ -190,9 +195,48 @@ Tax_2020 = c(4800, 4200, 5800, 3700), Tax_2021 = c(5200, 3800, 5900,
 
 ###Calculate column-wise means
 
-column_means \<- lapply(tax_data\[, -1\], 2, mean)
+column_means \<- lapply(tax_data\\[, -1\], 2, mean)
 
 column_means
+</blockquote>
+
+ChatGPT generated the following:
+
+<blockquote>
+The code you provided is attempting to calculate the column-wise means using the `lapply` function. However, the usage of `lapply` is incorrect in this context. The `lapply` function is used to apply a function to each element of a list or a vector. In this case, you are trying to calculate the means of each column of the `tax_data` data frame, so `lapply` is not the appropriate function to use.
+
+To calculate the column-wise means, you can use the `colMeans` function instead. Here's the corrected code:
+
+```{r}
+# Create a sample data frame
+tax_data <- data.frame(
+  Name = c("Munich GmbH", "ABC Inc.", "Backpacks 1980", "Bavarian Circus"),
+  Tax_2019 = c(5000, 4000, 6000, 3500),
+  Tax_2020 = c(4800, 4200, 5800, 3700),
+  Tax_2021 = c(5200, 3800, 5900, 3400)
+)
+
+# Calculate column-wise means
+column_means <- colMeans(tax_data[, -1])
+
+column_means
+```
+
+This code will correctly calculate the means of each column except for the "Name" column because it is excluded using `tax_data[, -1]`. The resulting `column_means` vector will contain the mean values for "Tax_2019", "Tax_2020", and "Tax_2021".
+
+If you want to calculate the row-wise means instead, you can use the `rowMeans` function. Here's the modified code:
+
+```{r}
+# Calculate row-wise means
+row_means <- rowMeans(tax_data[, -1])
+
+row_means
+```
+
+This will calculate the means for each row of the `tax_data` data frame, excluding the "Name" column. The resulting `row_means` vector will contain the mean values for each row.
+</blockquote>
+
+
 
 b)  Using ChatGPT try to understand what the rapply() function does.
     Create an easy example with mock data where the function is used and
@@ -209,7 +253,7 @@ The `rapply()` function in R is a recursive version of the `lapply()` function, 
 
 To illustrate the usage of `rapply()`, let's create a simple example. Suppose we have a list called `my_list` that contains some numeric values and nested lists:
 
-```R
+```{r}
 my_list <- list(1, 2, list(3, 4), list(5, list(6, 7)))
 ```
 
@@ -217,7 +261,7 @@ In this example, `my_list` contains four elements: two numeric values (1 and 2),
 
 Now, let's say we want to square each numeric value in the `my_list` structure. We can achieve this using `rapply()`:
 
-```R
+```{r}
 squared_list <- rapply(my_list, function(x) x^2, how = "replace")
 ```
 
