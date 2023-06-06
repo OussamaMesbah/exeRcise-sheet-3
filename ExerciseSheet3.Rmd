@@ -144,11 +144,13 @@ sum(names_2022$Anzahl)
 ```
 We can see that the number of newborn was greater in 2021. 
 
-
-
-
 d)  Add a new column `year` to both datasets which holds the correct
     year for each.
+
+```{r}
+names_2021$year <- 2021
+names_2022$year <- 2022
+```
 
 e)  Combine both datasets into one using `bind_rows()`.
 
